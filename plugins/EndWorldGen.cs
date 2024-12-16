@@ -62,43 +62,43 @@ namespace MCGalaxy
 			ImprovedNoise perlin = new ImprovedNoise(random);
 			perlin.Octaves = 1;
 			
-			float minY1 =  56f  / 128f * lvl.Height;
-			float maxY1 =  192f / 128f * lvl.Height;
-			float minY2 =  4f   / 128f * lvl.Height;
-			float maxY2 =  32f  / 128f * lvl.Height;
-			float minY3 =  16f  / 128f * lvl.Height;
-			float maxY3 =  48f  / 128f * lvl.Height;
+			double minY1 = 56.0  / 128.0 * lvl.Height;
+			double maxY1 = 192.0 / 128.0 * lvl.Height;
+			double minY2 = 4.0   / 128.0 * lvl.Height;
+			double maxY2 = 32.0  / 128.0 * lvl.Height;
+			double minY3 = 16.0  / 128.0 * lvl.Height;
+			double maxY3 = 48.0  / 128.0 * lvl.Height;
 			
 			int cellWidth  = ceil(lvl.Width  / cellSize) + 1;
 			int cellHeight = ceil(lvl.Height / cellSize) + 1;
 			int cellLength = ceil(lvl.Length / cellSize) + 1;
 			
-			int lavaHeight = ceil(lvl.Height / 4f);
+			int lavaHeight = ceil(lvl.Height / 4.0);
 			
-			float[,,] densities = new float[cellWidth,cellHeight,cellLength];
+			double[,,] densities = new double[cellWidth,cellHeight,cellLength];
 			
 			for (int y = 0; y < cellHeight; y++)
 				for (int z = 0; z < cellLength; z++)
 					for (int x = 0; x < cellWidth; x++)
 			{
-				float dist = (x - cellWidth / 2f) * (x - cellWidth / 2f) + (z - cellLength / 2f) * (z - cellLength / 2f);
+				double dist = (x - cellWidth / 2.0) * (x - cellWidth / 2.0) + (z - cellLength / 2f) * (z - cellLength / 2f);
 				
-				float d = (float) perlin.NormalisedNoise(
-					(x * 0.25f * 80  / 2f) / 171.103f * cellSize,
-					(y * 0.25f * 180 / 2f) / 171.103f * cellSize - dist / 10f,
-					(z * 0.25f * 80  / 2f) / 171.103f * cellSize
+				double d = (double) perlin.NormalisedNoise(
+					(float) ((x * 0.25 * 80  / 2) / 171.103 * cellSize),
+					(float) ((y * 0.25 * 180 / 2) / 171.103 * cellSize - dist / 10),
+					(float) ((z * 0.25 * 80  / 2) / 171.103 * cellSize)
 				);
 				
-				d += map(dist, 0, (80f / cellSize) * (80f / cellSize), 0.9625f, 0);
+				d += map(dist, 0, (80.0 / cellSize) * (80.0 / cellSize), 0.9625, 0);
       
-				d += 23.4375f;
+				d += 23.4375;
 				d *= clamp(map(y, minY1 / cellSize, maxY1 / cellSize, 1, 0), 0, 1);
-				d -= 23.4375f;
+				d -= 23.4375;
 				
-				d += 0.234375f;
+				d += 0.234375;
 				d *= clamp(map(y, minY2 / cellSize, maxY2 / cellSize, 0, 1), 0, 1);
 				d *= clamp(map(y, minY3 / cellSize, maxY3 / cellSize, 0.5f, 1), 0.25f, 1);
-				d -= 0.234375f;
+				d -= 0.234375;
 				
 				densities[x,y,z] = d;
 			}
@@ -111,21 +111,21 @@ namespace MCGalaxy
 				int cellY = y / cellSize;
 				int cellZ = z / cellSize;
 				
-				float density = lerp(
+				double density = lerp(
 					lerp(
-						lerp(densities[cellX,cellY,cellZ],   densities[cellX+1,cellY,cellZ],   (x % cellSize) / (float) cellSize),
-						lerp(densities[cellX,cellY+1,cellZ], densities[cellX+1,cellY+1,cellZ], (x % cellSize) / (float) cellSize),
-						(y % cellSize) / (float) cellSize
+						lerp(densities[cellX,cellY,cellZ],   densities[cellX+1,cellY,cellZ],   (x % cellSize) / (double) cellSize),
+						lerp(densities[cellX,cellY+1,cellZ], densities[cellX+1,cellY+1,cellZ], (x % cellSize) / (double) cellSize),
+						(y % cellSize) / (double) cellSize
 					),
 					lerp(
-						lerp(densities[cellX,cellY,cellZ+1],   densities[cellX+1,cellY,cellZ+1],   (x % cellSize) / (float) cellSize),
-						lerp(densities[cellX,cellY+1,cellZ+1], densities[cellX+1,cellY+1,cellZ+1], (x % cellSize) / (float) cellSize),
-						(y % cellSize) / (float) cellSize
+						lerp(densities[cellX,cellY,cellZ+1],   densities[cellX+1,cellY,cellZ+1],   (x % cellSize) / (double) cellSize),
+						lerp(densities[cellX,cellY+1,cellZ+1], densities[cellX+1,cellY+1,cellZ+1], (x % cellSize) / (double) cellSize),
+						(y % cellSize) / (double) cellSize
 					),
-					(z % cellSize) / (float) cellSize
+					(z % cellSize) / (double) cellSize
 				);
 				
-				density *= 0.64f;
+				density *= 0.64;
 				density = clamp(density, -1, 1);
 				density = density / 2 - density * density * density / 24;
 				
@@ -161,9 +161,9 @@ namespace MCGalaxy
 			
 			for (int i = 0; i < pillars.Length; i++)
 			{
-				float a = MathF.PI * 2f / (float) pillars.Length * i;
-				int x = round(centerX + MathF.Sin(a) * 43);
-				int z = round(centerZ + MathF.Cos(a) * 43);
+				double a = Math.PI * 2 / (double) pillars.Length * i;
+				int x = round(centerX + Math.Sin(a) * 43);
+				int z = round(centerZ + Math.Cos(a) * 43);
 				
 				Pillar p2 = pillars[i];
 			
@@ -265,13 +265,8 @@ namespace MCGalaxy
 			
 			lvl.SetBlock((ushort) centerX, (ushort) (exitY + 5), (ushort) centerZ, fireBlock);
 		}
-		
-		private static float sqrt(float x)
-		{
-			return (float) Math.Sqrt(x);
-		}
-		
-		private static float clamp(float x, float min, float max)
+			
+		private static double clamp(double x, double min, double max)
 		{
 			if (x < min)
 				return min;
@@ -282,51 +277,32 @@ namespace MCGalaxy
 			return x;
 		}
 		
-		private static float map(float x, float fromMin, float fromMax, float toMin, float toMax)
+		private static int abs(int x)
+		{
+			if (x < 0)
+				return -x;
+			
+			return x;
+		}
+		
+		private static double map(double x, double fromMin, double fromMax, double toMin, double toMax)
 		{
 			return (x - fromMin) / (fromMax - fromMin) * (toMax - toMin) + toMin;
 		}
 		
-		private static float lerp(float min, float max, float x)
+		private static double lerp(double min, double max, double x)
 		{
 			return x * (max - min) + min;
 		}
 		
-		private static int ceil(float x)
+		private static int ceil(double x)
 		{
-			return (int) Math.Ceiling((double) x);
+			return (int) Math.Ceiling(x);
 		}
 		
-		private static int round(float x)
+		private static int round(double x)
 		{
-			return (int) Math.Floor((double) (x + 0.5));
-		}
-		
-		private static int abs(int x)
-		{
-			return x < 0 ? -x : x;
-		}
-		
-		private static int max(int a, int b)
-		{
-			return a > b ? a : b;
-		}
-		
-		private static float maxf(float a, float b)
-		{
-			return a > b ? a : b;
-		}
-		
-		private static uint hash(uint state)
-		{
-			state ^= 0x27476364;
-			state *= 0x26544357;
-			state ^= state >> 16;
-			state *= 0x65443576;
-			state ^= state >> 16;
-			state *= 0x54435769;
-			
-			return state;
+			return (int) Math.Floor(x + 0.5);
 		}
 	}
 }
