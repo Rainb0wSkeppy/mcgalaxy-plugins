@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+using MCGalaxy;
 using MCGalaxy.Generator;
 using LibNoise;
 
@@ -29,11 +30,11 @@ namespace MCGalaxy
 			const int bedrockSize = 5;
 			const bool sideBedrock = true;
 			
-			const ushort lavaBlock = 10;
-			const ushort netherrackBlock = 21;
-			const ushort bedrockBlock = 7;
-			const ushort magmaBlock = 62;
-			const ushort glowstoneBlock = 33;
+			const ushort lavaBlock       = Block.StillLava;
+			const ushort netherrackBlock = Block.Red;
+			const ushort bedrockBlock    = Block.Bedrock;
+			const ushort magmaBlock      = Block.MagmaBlock;
+			const ushort glowstoneBlock  = Block.Yellow;
 			
 			Random rng = new Random();
 			Perlin perlin = new Perlin();

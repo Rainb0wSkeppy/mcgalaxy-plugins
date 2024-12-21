@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+using MCGalaxy;
 using MCGalaxy.Generator;
 
 namespace MCGalaxy
@@ -52,11 +53,11 @@ namespace MCGalaxy
 			
 			const int cellSize = 4;
 			
-			const ushort endStoneBlock = 23;
-			const ushort obsidianBlock = 49;
-			const ushort bedrockBlock  = 7;
-			const ushort cageBlock     = 44;
-			const ushort fireBlock     = 54;
+			const ushort endStoneBlock = Block.Yellow;
+			const ushort obsidianBlock = Block.Obsidian;
+			const ushort bedrockBlock  = Block.Bedrock;
+			const ushort cageBlock     = Block.Slab;
+			const ushort fireBlock     = Block.Fire;
 			
 			Random random = new Random();
 			ImprovedNoise perlin = new ImprovedNoise(random);
